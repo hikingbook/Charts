@@ -564,20 +564,22 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         
         if recognizer.state == NSUIGestureRecognizerState.ended
         {
+            var location = recognizer.location(in: self)
+            location.x = location.x - viewPortHandler.offsetLeft
+            
+            if isTouchInverted()
+            {
+                location.y = -(location.y - viewPortHandler.offsetTop)
+            }
+            else
+            {
+                location.y = -(self.bounds.size.height - location.y - viewPortHandler.offsetBottom)
+            }
+            
+            delegate?.chartDoubleTapped?(self, center: location)
+            
             if data !== nil && _doubleTapToZoomEnabled && (data?.entryCount ?? 0) > 0
             {
-                var location = recognizer.location(in: self)
-                location.x = location.x - viewPortHandler.offsetLeft
-                
-                if isTouchInverted()
-                {
-                    location.y = -(location.y - viewPortHandler.offsetTop)
-                }
-                else
-                {
-                    location.y = -(self.bounds.size.height - location.y - viewPortHandler.offsetBottom)
-                }
-                
                 self.zoom(scaleX: isScaleXEnabled ? 1.4 : 1.0, scaleY: isScaleYEnabled ? 1.4 : 1.0, x: location.x, y: location.y)
                 delegate?.chartScaled?(self, scaleX: scaleX, scaleY: scaleY)
             }

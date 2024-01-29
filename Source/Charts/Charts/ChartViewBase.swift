@@ -45,6 +45,9 @@ public protocol ChartViewDelegate
 
     // Callbacks when Animator stops animating
     @objc optional func chartView(_ chartView: ChartViewBase, animatorDidStop animator: Animator)
+    
+    // Callbacks when Animator stops animating
+    @objc optional func chartDoubleTapped(_ chartView: ChartViewBase, center: CGPoint)
 }
 
 open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
