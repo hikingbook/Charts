@@ -32,6 +32,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     private var _doubleTapToZoomEnabled = true
     private var _dragXEnabled = true
     private var _dragYEnabled = true
+    private var _panEnabled = true
     
     private var _scaleXEnabled = true
     private var _scaleYEnabled = true
@@ -691,7 +692,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             // If drag is enabled and we are in a position where there's something to drag:
             //  * If we're zoomed in, then obviously we have something to drag.
             //  * If we have a drag offset - we always have something to drag
-            if !self.hasNoDragOffset || !self.isFullyZoomedOut
+            let shouldPan = !self.hasNoDragOffset || !self.isFullyZoomedOut
+            if self.isPanEnabled && shouldPan
             {
                 _isDragging = true
                 
@@ -1591,6 +1593,25 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         {
             _dragYEnabled = newValue
         }
+    }
+    
+    /// is panning enabled? (moving the chart with the finger) for the chart (this does not affect scaling).
+    @objc open var panEnabled: Bool
+    {
+        get
+        {
+            return _panEnabled
+        }
+        set
+        {
+            _panEnabled = newValue
+        }
+    }
+    
+    /// is panning enabled? (moving the chart with the finger) for the chart (this does not affect scaling).
+    @objc open var isPanEnabled: Bool
+    {
+        return panEnabled
     }
     
     /// is scaling enabled? (zooming in and out by gesture) for the chart (this does not affect dragging).
