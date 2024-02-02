@@ -48,6 +48,19 @@ public protocol ChartViewDelegate
     
     // Callbacks when the chart is double tapped
     @objc optional func chartDoubleTapped(_ chartView: ChartViewBase, center: CGPoint)
+    
+    // Callbacks when the chart touches began
+    @objc optional func chartTouchesBegan(_ chartView: ChartViewBase, touches: Set<NSUITouch>, event: NSUIEvent?)
+    
+    // Callbacks when the chart touches moved
+    @objc optional func chartTouchesMoved(_ chartView: ChartViewBase, touches: Set<NSUITouch>, event: NSUIEvent?)
+    
+    // Callbacks when the chart touches end
+    @objc optional func chartTouchesEnded(_ chartView: ChartViewBase, touches: Set<NSUITouch>, event: NSUIEvent?)
+    
+    // Callbacks when the chart touches cancelled
+    @objc optional func chartTouchesCancelled(_ chartView: ChartViewBase, touches: Set<NSUITouch>?, event: NSUIEvent?)
+    
 }
 
 open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
@@ -878,20 +891,24 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     open override func nsuiTouchesBegan(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
     {
         super.nsuiTouchesBegan(touches, withEvent: event)
+        delegate?.chartTouchesBegan?(self, touches: touches, event: event)
     }
     
     open override func nsuiTouchesMoved(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
     {
         super.nsuiTouchesMoved(touches, withEvent: event)
+        delegate?.chartTouchesMoved?(self, touches: touches, event: event)
     }
     
     open override func nsuiTouchesEnded(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
     {
         super.nsuiTouchesEnded(touches, withEvent: event)
+        delegate?.chartTouchesEnded?(self, touches: touches, event: event)
     }
     
     open override func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
     {
         super.nsuiTouchesCancelled(touches, withEvent: event)
+        delegate?.chartTouchesCancelled?(self, touches: touches, event: event)
     }
 }
