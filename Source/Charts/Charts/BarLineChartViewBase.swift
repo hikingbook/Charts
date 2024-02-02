@@ -793,6 +793,10 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 
                 _isDragging = false
             }
+            else if isHighlightPerDragEnabled && isHighlightUnselectedDragEndEnabled {
+                self.lastHighlighted = nil
+                self.highlightValue(nil, callDelegate: true)
+            }
             
             if _outerScrollView !== nil
             {
@@ -1700,6 +1704,17 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     @objc open var isHighlightPerDragEnabled: Bool
     {
         return highlightPerDragEnabled
+    }
+    
+    /// flag that indicates if highlighting is unselected when dragging is end
+    @objc open var highlightUnselectedDragEndEnabled = false
+    
+    /// If set to true, highlighting is unselected when dragging is end
+    ///
+    /// **default**: false
+    @objc open var isHighlightUnselectedDragEndEnabled: Bool
+    {
+        return highlightUnselectedDragEndEnabled
     }
     
     /// **default**: true
